@@ -16,5 +16,4 @@ class Player:
 			self.__init__()
 			
 	def nomear(self):
-		
-		
+		#to-do
