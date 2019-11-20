@@ -14,4 +14,7 @@ class Player:
 		if (self.vidas==0):
 			self.nomear()
 			self.__init__()
+			
+	def nomear(self):
+		
 		
