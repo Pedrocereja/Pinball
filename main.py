@@ -2,6 +2,7 @@ from pyfirmata import Arduino, util, INPUT, OUTPUT
 from time import sleep
 from player import Player
 from arduino import Sensor
+import telas
 
 #Setup
 board = Arduino('/dev/ttyACM0', baudrate = 250000)
@@ -58,15 +59,5 @@ while True:
       else:
         telaTransicao(self.vidas)
   telaFinal()
-  
-def telaInicial():  
-  while (sens_inicio.status() == 0):
-    #Plotar gráficos da tela inicial
-    
-def telaJogo():
-  
-def telaTransicao(vidas):
-  
-def telaFinal():
   
       
