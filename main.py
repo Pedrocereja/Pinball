@@ -1,7 +1,7 @@
 from pyfirmata import Arduino, util, INPUT, OUTPUT
 from time import sleep
-from player import Player
-from arduino import Sensor
+import player
+import arduino
 import telas
 
 #Setup
