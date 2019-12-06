@@ -1,8 +1,8 @@
 from pyfirmata import Arduino, util, INPUT, OUTPUT
 from time import sleep
-import player
-import arduino
-import telas
+from player import *
+from arduino import *
+from telas import *
 
 #Setup
 board = Arduino('/dev/ttyACM0', baudrate = 250000)
@@ -12,20 +12,20 @@ it.start()
 
 #Declaração de variáveis
 player = Player()
-sens_inicio = Sensor(pin, valor)
-sens_morte = Sensor(pin, valor)
-sens0 = Sensor(pin, valor)
-sens1 = Sensor(pin, valor)
-sens2 = Sensor(pin, valor)
-sens3 = Sensor(pin, valor)
-sens4 = Sensor(pin, valor)
-sens5 = Sensor(pin, valor)
-sens6 = Sensor(pin, valor)
-sens7 = Sensor(pin, valor)
+sens_inicio = Sensor(11, 10, board)
+sens_morte = Sensor(2, 10, board)
+sens0 = Sensor(3, 10, board)
+sens1 = Sensor(4, 10, board)
+sens2 = Sensor(5, 10, board)
+sens3 = Sensor(6, 10, board)
+sens4 = Sensor(7, 10, board)
+sens5 = Sensor(8, 10, board)
+sens6 = Sensor(9, 10, board)
+sens7 = Sensor(10, 10, board)
 
 #Execução do jogo
 while True:
-  telaInicial()#Exibe tela inicial até o lançamento da bola
+  telaInicial(sens_inicio)#Exibe tela inicial até o lançamento da bola
   telaJogo()
   while True:
     if (sens0.status() == 1):
@@ -54,10 +54,12 @@ while True:
       telaJogo()
     if (sens_morte.status() == 1):
       player.morrer()
+      sleep(1)
       if (player.vidas == 0):
+        player.__init__()
         break
       else:
-        telaTransicao(self.vidas)
+        telaTransicao(player.vidas)
   telaFinal()
   
       
