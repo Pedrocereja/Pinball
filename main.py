@@ -3,55 +3,59 @@ from time import sleep
 from player import *
 from arduino import *
 from telas import *
+from testeAlinhamento import*
+import pygame
 
 #Setup
 board = Arduino('/dev/ttyACM0', baudrate = 250000)
 sleep(5)
 it = util.Iterator(board)
 it.start()
+pygame.init()
+pygame.mixer.music.load("SpaceCadet.mp3")
+pygame.mixer.music.play(loops = -1, start = 1.2)
 
 #Declaração de variáveis
 player = Player()
-sens_inicio = Sensor(11, 10, board)
-sens_morte = Sensor(2, 10, board)
-sens0 = Sensor(3, 10, board)
-sens1 = Sensor(4, 10, board)
-sens2 = Sensor(5, 10, board)
-sens3 = Sensor(6, 10, board)
-sens4 = Sensor(7, 10, board)
-sens5 = Sensor(8, 10, board)
-sens6 = Sensor(9, 10, board)
-sens7 = Sensor(10, 10, board)
+sens_inicio = Sensor(4, 0, board)
+sens_morte = Sensor(8, 0, board)
+sens0 = Sensor(2, 10, board) #Embaixo da ponte
+sens1 = Sensor(3, 15, board) #Buraco da direita
+sens2 = Sensor(5, 15, board) #Buraco da esquerda
+sens3 = Sensor(6, 5, board) #Ao lado do loop
+sens4 = Sensor(7, 20, board) #Loop
+
+#Desabilitação dos sensores em caso de desalinhamento
+check_morte = sensorCheck(sens_morte)
+check_morte.start()
+check_inicio = sensorCheck(sens_inicio)
+check_inicio.start()
+check0 = sensorCheck(sens0)
+check0.start()
+check1 = sensorCheck(sens1)
+check1.start()
+check2 = sensorCheck(sens2)
+check2.start()
+check3 = sensorCheck(sens3)
+check3.start()
+check4 = sensorCheck(sens4)
+check4.start()
 
 #Execução do jogo
 while True:
   telaInicial(sens_inicio)#Exibe tela inicial até o lançamento da bola
-  telaJogo()
+  telaJogo(player.vidas, player.pontuacao)
   while True:
     if (sens0.status() == 1):
       player.pontuar(sens0.valor)
-      telaJogo()
     if (sens1.status() == 1):
       player.pontuar(sens1.valor)
-      telaJogo()
     if (sens2.status() == 1):
       player.pontuar(sens2.valor)
-      telaJogo()
     if (sens3.status() == 1):
       player.pontuar(sens3.valor)
-      telaJogo()
     if (sens4.status() == 1):
       player.pontuar(sens4.valor)
-      telaJogo()
-    if (sens5.status() == 1):
-      player.pontuar(sens5.valor)
-      telaJogo()
-    if (sens6.status() == 1):
-      player.pontuar(sens6.valor)
-      telaJogo()
-    if (sens7.status() == 1):
-      player.pontuar(sens7.valor)
-      telaJogo()
     if (sens_morte.status() == 1):
       player.morrer()
       sleep(1)
